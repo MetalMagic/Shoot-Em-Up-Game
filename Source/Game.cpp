@@ -12,17 +12,11 @@
 #include "Enemy.h"
 #include "CollisionManager.h"
 #include "EnemyFactory.h"
-
 #include "Background.h"
 #include "BulletPattern.h"
 #include "Config.h"
-
 #include "Setup.h"
-
 #include "HUD.h"
-
-#include <thread>
-
 #include "Boss.h"
 
 
