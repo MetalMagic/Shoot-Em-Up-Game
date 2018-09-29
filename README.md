@@ -5,4 +5,6 @@ This is my first video game project to ever reach some sort of completion. I sta
 
 I used the sfml library to help handle events, textures, audio, and the window. All of the source code is present except for config.h and the setup class. I kept those out because the game assets are hardcoded in there and I'd like to keep those private.
 
+The credits.txt file gives credit for most of the textures and the music I used.
+
 To download and play the game simply download the Game.zip file, extract it and run the Game.exe file.
