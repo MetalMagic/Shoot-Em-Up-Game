@@ -118,150 +118,18 @@ int main() {
 
 
 	GameState gameState = MainMenu;
-
+	
 
 	while (true) { //Main loop
-
-		while (gameState == MainMenu) {	//The main menu loop
-
-			while (window.pollEvent(event)) {
-				switch (event.type)
-				{
-				case sf::Event::Closed: //window is closed
-					std::cout << "Window closed" << std::endl;
-					window.close();
-
-					return 0;
-
-				default:
-					break;
-				}
-			}
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-				gameState = MainGame;
-				enemyFactory.ResetTimers();	//reset the enemyFactory's timer
-			}
-			
-			window.clear(); //clear the window
-
-			background.Update();
-
-			renderer.Render(background.GetRenderDescription());
-			renderer.Render(player.GetRenderDescription());
-			renderer.Render(RenderDescription({ 0,0 }, mainScreenSprite));
-
-			window.display(); //update the display
-		}
-
-		while (gameState == LoseScreen) {	//The lose screen
-			
-			while (window.pollEvent(event)) {
-				switch (event.type)
-				{
-				case sf::Event::Closed: //window is closed
-					std::cout << "Window closed" << std::endl;
-					window.close();
-
-					return 0;
-
-				default:
-					break;
-				}
-			}
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-				gameState = MainGame;
-				enemyFactory.ResetQueues(setup.GetEnemies(), setup.GetBosses());
-				enemyFactory.ResetTimers();	//reset the enemyFactory's timer
-				player.Reset(); //reset the player
-
-				//clear the screen
-				bullets.clear();
-				enemies.clear();
-				bosses.clear();
-						
-			}
-
-			window.clear(); //clear the window
-
-			//Render objects
-			renderer.Render(background.GetRenderDescription()); //render the background
-			for (std::size_t i = 0; i < bosses.size(); ++i) { //render bosses
-				renderer.Render(bosses[i]->GetRenderDescription());
-			}
-			for (std::size_t i = 0; i < enemies.size(); ++i) { //render enemies
-				renderer.Render(enemies[i]->GetRenderDescription());
-			}
-			renderer.Render(player.GetRenderDescription()); //render player
-			renderer.Render(player.GetHitboxRenderDescription()); //render player hitbox
-			for (std::size_t i = 0; i < bullets.size(); ++i) { //render bullets
-				renderer.Render(bullets[i]->GetRenderDescription());
-			}
-			renderer.Render(hud.GetRenderDescription()); //render the hud
-			renderer.Render(RenderDescription({ 0,0 }, loseScreenSprite));
-
-			window.display(); //update the display
-		}
-
-		while (gameState == WinScreen) {	//the WinScren
-
-			while (window.pollEvent(event)) {
-				switch (event.type)
-				{
-				case sf::Event::Closed: //window is closed
-					std::cout << "Window closed" << std::endl;
-					window.close();
-
-					return 0;
-
-				default:
-					break;
-				}
-			}
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-				gameState = MainGame;
-				enemyFactory.ResetQueues(setup.GetEnemies(), setup.GetBosses());
-				enemyFactory.ResetTimers();	//reset the enemyFactory's timer
-				player.Reset(); //reset the player
-
-				//clear the screen
-				bullets.clear();
-				enemies.clear();
-				bosses.clear();
-			}
-
-			window.clear(); //clear the window
-
-			//Render objects
-			renderer.Render(background.GetRenderDescription()); //render the background
-			for (std::size_t i = 0; i < bosses.size(); ++i) { //render bosses
-				renderer.Render(bosses[i]->GetRenderDescription());
-			}
-			for (std::size_t i = 0; i < enemies.size(); ++i) { //render enemies
-				renderer.Render(enemies[i]->GetRenderDescription());
-			}
-			renderer.Render(player.GetRenderDescription()); //render player
-			renderer.Render(player.GetHitboxRenderDescription()); //render player hitbox
-			for (std::size_t i = 0; i < bullets.size(); ++i) { //render bullets
-				renderer.Render(bullets[i]->GetRenderDescription());
-			}
-			renderer.Render(hud.GetRenderDescription()); //render the hud
-			renderer.Render(RenderDescription({ 0,0 }, winScreenSprite));
-
-			window.display(); //update the display
-		}
 		
-
 		while (gameState == MainGame) {	//The main game loop
 
 			
-			if (enemyFactory.Remaining() == 0 && enemies.size() == 0 && bosses.size() == 0) {	//if all enemies and bosses have been defeated
+			if (enemyFactory.Remaining() == 0 && enemies.size() == 0 && bosses.size() == 0) { //if all enemies and bosses have been defeated
 				gameState = WinScreen;	//change gameState to WinScreen
 			}
 
-			if (player.CheckGameOver()) {
+			if (player.CheckGameOver()) {	//gameover
 				gameState = LoseScreen;
 			}
 
@@ -376,6 +244,7 @@ int main() {
 			for (std::size_t i = 0; i < enemies.size(); ++i) {
 				enemies[i]->UpdateSprite();
 			}
+			
 
 			//render objects
 			renderer.Render(background.GetRenderDescription()); //render the background
@@ -397,6 +266,140 @@ int main() {
 
 			renderer.Render(hud.GetRenderDescription()); //render the hud
 
+
+			window.display(); //update the display
+		}
+		
+		
+		while (gameState == MainMenu) {	//The main menu loop
+
+			while (window.pollEvent(event)) {
+				switch (event.type)
+				{
+				case sf::Event::Closed: //window is closed
+					std::cout << "Window closed" << std::endl;
+					window.close();
+
+					return 0;
+
+				default:
+					break;
+				}
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+				gameState = MainGame;
+				enemyFactory.ResetTimers();	//reset the enemyFactory's timer
+			}
+			
+			window.clear(); //clear the window
+
+			background.Update();
+
+			renderer.Render(background.GetRenderDescription());
+			renderer.Render(player.GetRenderDescription());
+			renderer.Render(RenderDescription({ 0,0 }, mainScreenSprite));
+
+			window.display(); //update the display
+		}
+		
+
+		while (gameState == LoseScreen) {	//The lose screen
+			
+			while (window.pollEvent(event)) {
+				switch (event.type)
+				{
+				case sf::Event::Closed: //window is closed
+					std::cout << "Window closed" << std::endl;
+					window.close();
+
+					return 0;
+
+				default:
+					break;
+				}
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+				gameState = MainGame;
+				enemyFactory.ResetQueues(setup.GetEnemies(), setup.GetBosses());
+				enemyFactory.ResetTimers();	//reset the enemyFactory's timer
+				player.Reset(); //reset the player
+
+				//clear the screen
+				bullets.clear();
+				enemies.clear();
+				bosses.clear();
+						
+			}
+
+			window.clear(); //clear the window
+
+			//Render objects
+			renderer.Render(background.GetRenderDescription()); //render the background
+			for (std::size_t i = 0; i < bosses.size(); ++i) { //render bosses
+				renderer.Render(bosses[i]->GetRenderDescription());
+			}
+			for (std::size_t i = 0; i < enemies.size(); ++i) { //render enemies
+				renderer.Render(enemies[i]->GetRenderDescription());
+			}
+			renderer.Render(player.GetRenderDescription()); //render player
+			renderer.Render(player.GetHitboxRenderDescription()); //render player hitbox
+			for (std::size_t i = 0; i < bullets.size(); ++i) { //render bullets
+				renderer.Render(bullets[i]->GetRenderDescription());
+			}
+			renderer.Render(hud.GetRenderDescription()); //render the hud
+			renderer.Render(RenderDescription({ 0,0 }, loseScreenSprite));
+
+			window.display(); //update the display
+		}
+		
+
+		while (gameState == WinScreen) {	//the WinScren
+
+			while (window.pollEvent(event)) {
+				switch (event.type)
+				{
+				case sf::Event::Closed: //window is closed
+					std::cout << "Window closed" << std::endl;
+					window.close();
+
+					return 0;
+
+				default:
+					break;
+				}
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+				gameState = MainGame;
+				enemyFactory.ResetQueues(setup.GetEnemies(), setup.GetBosses());
+				enemyFactory.ResetTimers();	//reset the enemyFactory's timer
+				player.Reset(); //reset the player
+
+				//clear the screen
+				bullets.clear();
+				enemies.clear();
+				bosses.clear();
+			}
+
+			window.clear(); //clear the window
+
+			//Render objects
+			renderer.Render(background.GetRenderDescription()); //render the background
+			for (std::size_t i = 0; i < bosses.size(); ++i) { //render bosses
+				renderer.Render(bosses[i]->GetRenderDescription());
+			}
+			for (std::size_t i = 0; i < enemies.size(); ++i) { //render enemies
+				renderer.Render(enemies[i]->GetRenderDescription());
+			}
+			renderer.Render(player.GetRenderDescription()); //render player
+			renderer.Render(player.GetHitboxRenderDescription()); //render player hitbox
+			for (std::size_t i = 0; i < bullets.size(); ++i) { //render bullets
+				renderer.Render(bullets[i]->GetRenderDescription());
+			}
+			renderer.Render(hud.GetRenderDescription()); //render the hud
+			renderer.Render(RenderDescription({ 0,0 }, winScreenSprite));
 
 			window.display(); //update the display
 		}
