@@ -66,6 +66,6 @@ bool Bullet::IsFriendly() const {
 	}
 }
 
-void Bullet::ResetTimers() { //restart the bullet timers so copies will work, , i know this is probably not the best way to do this but copy constructors are tricky
+void Bullet::ResetTimers() { //restart the bullet timers so copies will work, , i know this is probably not the best way to do this
 	moveTimer.restart();
 }
